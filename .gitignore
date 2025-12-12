@@ -1,0 +1,29 @@
+# Flutter / Dart
+.flutter-plugins
+.flutter-plugins-dependencies
+.dart_tool/
+.packages
+pubspec.lock
+.buildlog/
+build/
+.flutter-versions
+/ios/Pods/
+/android/.gradle/
+/android/app/debug/
+/android/app/profile/
+/android/local.properties
+
+# Do NOT commit the Flutter SDK if it's inside the repo
+/flutter/
+
+# VSCode / IntelliJ
+.vscode/
+.idea/
+
+# macOS / Linux / Windows
+.DS_Store
+*.iml
+*.log
+
+# Generated files
+gen/
