@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -21,13 +21,17 @@ jobs:
           flutter-version: '3.22.0'
 
       - name: Install dependencies
-        run: flutter pub get
+        run: |
+          cd blog_reader
+          flutter pub get
 
       - name: Build APK
-        run: flutter build apk --release
+        run: |
+          cd blog_reader
+          flutter build apk --release
 
       - name: Upload APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: blog_reader-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: blog_reader/build/app/outputs/flutter-apk/app-release.apk
