@@ -42,7 +42,7 @@ class _PostsPageState extends State<PostsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Latest Posts'),
+        title: const Text('Latest Posts v2'),
       ),
       body: FutureBuilder<List<Post>>(
         future: _postsFuture,
