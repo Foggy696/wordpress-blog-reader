@@ -3,57 +3,57 @@ import 'models/post.dart';
 import 'services/wordpress_service.dart';
 
 void main() {
-  runApp(const BlogReaderApp());
+  runApp(const MyApp());
 }
 
-class BlogReaderApp extends StatelessWidget {
-  const BlogReaderApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'WordPress Blog Reader',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const PostListScreen(),
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: PostsPage(),
     );
   }
 }
 
-class PostListScreen extends StatefulWidget {
-  const PostListScreen({super.key});
+class PostsPage extends StatefulWidget {
+  const PostsPage({super.key});
 
   @override
-  State<PostListScreen> createState() => _PostListScreenState();
+  State<PostsPage> createState() => _PostsPageState();
 }
 
-class _PostListScreenState extends State<PostListScreen> {
+class _PostsPageState extends State<PostsPage> {
   late Future<List<Post>> _postsFuture;
-  final WordPressService _service = WordPressService();
 
   @override
   void initState() {
     super.initState();
-    _postsFuture = _service.fetchPosts();
+    _postsFuture = WordPressService.fetchPosts();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Latest Posts')),
+      appBar: AppBar(
+        title: const Text('Latest Posts'),
+      ),
       body: FutureBuilder<List<Post>>(
         future: _postsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(
+          }
+
+          if (snapshot.hasError) {
+            return const Center(
               child: Text(
                 'Error loading posts',
                 style: TextStyle(color: Colors.red),
               ),
             );
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No posts found'));
           }
 
           final posts = snapshot.data!;
@@ -61,13 +61,10 @@ class _PostListScreenState extends State<PostListScreen> {
             itemCount: posts.length,
             itemBuilder: (context, index) {
               final post = posts[index];
+
               return ListTile(
-                title: Text(post.title),
-                subtitle: Text(
-                  post.excerpt,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                title: Text(post.title), // 👈 THIS LINE
+                subtitle: Text(post.excerpt),
               );
             },
           );
