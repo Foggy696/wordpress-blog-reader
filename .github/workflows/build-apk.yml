@@ -2,36 +2,31 @@ name: Build Flutter APK
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   build:
-    name: Build APK
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.22.0'
 
       - name: Install dependencies
-        run: |
-          cd blog_reader
-          flutter pub get
+        working-directory: blog_reader
+        run: flutter pub get
 
       - name: Build APK
-        run: |
-          cd blog_reader
-          flutter build apk --release
+        working-directory: blog_reader
+        run: flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: blog_reader-apk
           path: blog_reader/build/app/outputs/flutter-apk/app-release.apk
+
