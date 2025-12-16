@@ -7,11 +7,10 @@ on:
 
 jobs:
   build:
-    name: Build APK
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout the repo
+      # 1️⃣ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -21,20 +20,21 @@ jobs:
         with:
           flutter-version: '3.22.0'
 
-      # 3️⃣ Install dependencies (ensure correct working directory)
+      # 3️⃣ Install dependencies
       - name: Install dependencies
-        run: flutter pub get
-        working-directory: ./blog_reader
+        run: |
+          cd blog_reader
+          flutter pub get
 
       # 4️⃣ Build release APK
       - name: Build APK
-        run: flutter build apk --release
-        working-directory: ./blog_reader
+        run: |
+          cd blog_reader
+          flutter build apk --release
 
       # 5️⃣ Upload the APK artifact
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: blog_reader-apk
-          path: ./blog_reader/build/app/outputs/flutter-apk/app-release.apk
-
+          path: blog_reader/build/app/outputs/flutter-apk/app-release.apk
