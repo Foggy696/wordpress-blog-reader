@@ -28,10 +28,14 @@ class PostsPage extends StatefulWidget {
 class _PostsPageState extends State<PostsPage> {
   late Future<List<Post>> _postsFuture;
 
+  // ✅ CREATE SERVICE INSTANCE
+  final WordPressService _service = WordPressService();
+
   @override
   void initState() {
     super.initState();
-    _postsFuture = WordPressService.fetchPosts();
+    // ✅ CALL METHOD ON INSTANCE
+    _postsFuture = _service.fetchPosts();
   }
 
   @override
@@ -63,8 +67,8 @@ class _PostsPageState extends State<PostsPage> {
               final post = posts[index];
 
               return ListTile(
-                title: Text(post.title), // 👈 THIS LINE
-                subtitle: Text(post.excerpt),
+                title: Text(post.title),     // ✅ works
+                subtitle: Text(post.excerpt), // ✅ works
               );
             },
           );
